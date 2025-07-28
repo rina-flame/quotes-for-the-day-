@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quotes for the Day</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-purple-400 min-h-screen flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-lg w-[800px] h-80 text-center p-8 flex flex-col justify-between">
+    <div>
+      <blockquote class="quote text-xl font-semibold text-gray-700 italic">
+        “Believe you can and you're halfway there.”
+      </blockquote>
+      <p class="author text-sm text-gray-500 mt-2">— Theodore Roosevelt</p>
+    </div>
+    <button class="shuffle-btn mt-1 px-4 py-2 bg-indigo-500 text-white font-medium rounded-full shadow
+     hover:bg-indigo-600 hover:scale-105 active:scale-95 transition duration-300">
+      🔁 Shuffle
+    </button>
+  </div>
+
+  <script>
+    function getQuoteFromAPI() {
+      const apiKey = `DOz591zPcKvNslTkQuwW1g==d11KVkzEywQwRCQj`
+      fetch("https://api.api-ninjas.com/v1/quotes",{
+        headers:{
+          "X-Api-Key":apiKey
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data)
+          const quoteText = data[0].quote;
+          const quoteAuthor = data[0].author;
+
+          document.querySelector(".quote").textContent = `"${quoteText}"`;
+          document.querySelector(".author").textContent = `— ${quoteAuthor}`;
+        })
+        .catch(error => {
+          console.log("Something went wrong!", error);
+        });
+    }
+
+    document.querySelector('.shuffle-btn').addEventListener('click', getQuoteFromAPI);
+  </script>
+</body>
+</html>
